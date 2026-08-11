@@ -28,6 +28,8 @@ public class ExampleSubsystem extends SubsystemBase {
     testMotorConfigs.MotionMagic.MotionMagicExpo_kV = 0.12;
     testMotorConfigs.MotionMagic.MotionMagicExpo_kA = 0.1;
     testMotorConfigs.MotionMagic.MotionMagicJerk = 0;
+
+    m_test_motor.getConfigurator().apply(testMotorConfigs);
   }
   public void setMotorPosition(double position) {
     m_test_motor.setControl(m_motorPositionRequest.withPosition(position));
