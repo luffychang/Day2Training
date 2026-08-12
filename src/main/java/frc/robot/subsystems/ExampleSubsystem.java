@@ -4,35 +4,42 @@
 
 package frc.robot.subsystems;
 
+import edu.wpi.first.units.measure.Velocity;
 import edu.wpi.first.wpilibj2.command.Command;
 import edu.wpi.first.wpilibj2.command.SubsystemBase;
+import com.ctre.phoenix6.controls.VelocityTorqueCurrentFOC;
 import com.ctre.phoenix6.controls.MotionMagicVoltage;
 import com.ctre.phoenix6.hardware.TalonFX;
 import com.ctre.phoenix6.configs.TalonFXConfiguration;
 
 public class ExampleSubsystem extends SubsystemBase {
-  private final TalonFX m_test_motor = new TalonFX(0, "rio");
-  private final MotionMagicVoltage m_motorPositionRequest = new MotionMagicVoltage(0.0).withSlot(0);
+  private final TalonFX m_test_motor = new TalonFX(17, "canivore");
+  //private final MotionMagicVoltage m_motorPositionRequest = new MotionMagicVoltage(0.0).withSlot(0);
+  private final VelocityTorqueCurrentFOC m_motorVelocityRequest = new VelocityTorqueCurrentFOC(0.0).withSlot(0);
   /** Creates a new ExampleSubsystem. */
   public ExampleSubsystem() {
     var testMotorConfigs = new TalonFXConfiguration();
-
-    testMotorConfigs.Slot0.kS = 4.7;
-    testMotorConfigs.Slot0.kV = 0.09;
-    testMotorConfigs.Slot0.kA = 1;
-    testMotorConfigs.Slot0.kP = 4;
+    // kS 0.2, kP 5 for pos
+    // kS 5, kV 0.175, kP 10 for vel
+    testMotorConfigs.Slot0.kS = 5;
+    testMotorConfigs.Slot0.kV = 0.175;
+    testMotorConfigs.Slot0.kA = 0;
+    testMotorConfigs.Slot0.kP = 10;
     testMotorConfigs.Slot0.kI = 0;
-    testMotorConfigs.Slot0.kD = 0.25;
-    testMotorConfigs.MotionMagic.MotionMagicAcceleration = 100;
-    testMotorConfigs.MotionMagic.MotionMagicCruiseVelocity = 200;
-    testMotorConfigs.MotionMagic.MotionMagicExpo_kV = 0.12;
-    testMotorConfigs.MotionMagic.MotionMagicExpo_kA = 0.1;
-    testMotorConfigs.MotionMagic.MotionMagicJerk = 0;
+    testMotorConfigs.Slot0.kD = 0;
+    // testMotorConfigs.MotionMagic.MotionMagicAcceleration = 100;
+    // testMotorConfigs.MotionMagic.MotionMagicCruiseVelocity = 200;
+    // testMotorConfigs.MotionMagic.MotionMagicExpo_kV = 0.12;
+    // testMotorConfigs.MotionMagic.MotionMagicExpo_kA = 0.1;
+    // testMotorConfigs.MotionMagic.MotionMagicJerk = 0;
 
     m_test_motor.getConfigurator().apply(testMotorConfigs);
   }
-  public void setMotorPosition(double position) {
-    m_test_motor.setControl(m_motorPositionRequest.withPosition(position));
+  // public void setMotorPosition(double position) {
+  //   m_test_motor.setControl(m_motorPositionRequest.withPosition(position));
+  // }
+  public void setMotorVelocity(double velocity) {
+    m_test_motor.setControl(m_motorVelocityRequest.withVelocity(velocity));
   }
   /**
    * Example command factory method.
@@ -44,10 +51,19 @@ public class ExampleSubsystem extends SubsystemBase {
     // Subsystem::RunOnce implicitly requires `this` subsystem.
     return runOnce(
         () -> {
-          setMotorPosition(10.0);
+          //setMotorPosition(10.0);
         });
   }
-
+  public Command resetVel() {
+    return runOnce(() -> {
+      setMotorVelocity(0.0);
+    });
+  }
+  public Command setVel() {
+    return runOnce(() -> {
+      setMotorVelocity(50.0);
+    });
+  }
   /**
    * An example method querying a boolean state of the subsystem (for example, a digital sensor).
    *

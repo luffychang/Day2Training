@@ -58,10 +58,10 @@
     "edu.wpi.first.math.**.struct.*"
   ],
   "java.dependency.enableDependencyCheckup": false,
-  "terminal.integrated.defaultProfile.windows": "Git Bash",
+  "terminal.integrated.defaultProfile.windows": "Command Prompt",
   "terminal.integrated.profiles.windows": {
-    "Git Bash": {
-      "path": "/usr/bin/bash",
+    "Command Prompt": {
+      "path": "C:\\WINDOWS\\system32\\cmd.exe",
       "args": ["-l", "-i"]
     }
   }

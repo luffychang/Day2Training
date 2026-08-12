@@ -6,9 +6,9 @@ package frc.robot;
 
 import frc.robot.Constants.OperatorConstants;
 import frc.robot.commands.Autos;
-import frc.robot.commands.ExampleCommand;
 import frc.robot.subsystems.ExampleSubsystem;
 import frc.robot.subsystems.shooter;
+import frc.robot.subsystems.twoMotorsTest;
 import edu.wpi.first.wpilibj2.command.Command;
 import edu.wpi.first.wpilibj2.command.button.CommandXboxController;
 import edu.wpi.first.wpilibj2.command.button.Trigger;
@@ -21,8 +21,9 @@ import edu.wpi.first.wpilibj2.command.button.Trigger;
  */
 public class RobotContainer {
   // The robot's subsystems and commands are defined here...
-  private final ExampleSubsystem m_exampleSubsystem = new ExampleSubsystem();
-  private final shooter Shooter = new shooter();
+  // private final ExampleSubsystem m_exampleSubsystem = new ExampleSubsystem();
+  // private final shooter Shooter = new shooter();
+  private final twoMotorsTest TwoMotors = new twoMotorsTest();
   // Replace with CommandPS4Controller or CommandJoystick if needed
   private final CommandXboxController m_driverController =
       new CommandXboxController(OperatorConstants.kDriverControllerPort);
@@ -46,8 +47,10 @@ public class RobotContainer {
     // Schedule `ExampleCommand` when `exampleCondition` changes to `true`
     // Schedule `exampleMethodCommand` when the Xbox controller's B button is pressed,
     // cancelling on release.
-    m_driverController.a().whileTrue(Shooter.turnToPosition());
-    m_driverController.b().whileTrue(Shooter.returnToPosition());
+    m_driverController.a().whileTrue(TwoMotors.motor1SetVel());
+    m_driverController.a().whileTrue(TwoMotors.motor2SetPos());
+    m_driverController.b().whileTrue(TwoMotors.motor1ResetVel());
+    m_driverController.b().whileTrue(TwoMotors.motor2ResetPos());
   }
 
   /**
@@ -55,8 +58,8 @@ public class RobotContainer {
    *
    * @return the command to run in autonomous
    */
-  public Command getAutonomousCommand() {
-    // An example command will be run in autonomous
-    return Autos.exampleAuto(m_exampleSubsystem);
-  }
+  // public Command getAutonomousCommand() {
+  //   // An example command will be run in autonomous
+  //   return Autos.exampleAuto(m_exampleSubsystem);
+  // }
 }
