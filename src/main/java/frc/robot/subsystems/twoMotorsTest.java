@@ -30,23 +30,15 @@ public class twoMotorsTest extends SubsystemBase {
     public void setMotorPosition(double position) {
         motor2.setControl(motor2PositionRequest.withPosition(position));
     }
-    public Command motor1ResetVel() {
+    public Command stop() {
         return runOnce(() -> {
             setMotorVelocity(0.0);
-        });
-    }
-    public Command motor1SetVel() {
-        return runOnce(() -> {
-            setMotorVelocity(50.0);
-        });
-    }
-    public Command motor2ResetPos() {
-        return runOnce(() -> {
             setMotorPosition(0.0);
         });
     }
-    public Command motor2SetPos() {
+    public Command start() {
         return runOnce(() -> {
+            setMotorVelocity(50.0);
             setMotorPosition(50.0);
         });
     }

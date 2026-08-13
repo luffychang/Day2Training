@@ -47,10 +47,8 @@ public class RobotContainer {
     // Schedule `ExampleCommand` when `exampleCondition` changes to `true`
     // Schedule `exampleMethodCommand` when the Xbox controller's B button is pressed,
     // cancelling on release.
-    m_driverController.a().whileTrue(TwoMotors.motor1SetVel());
-    m_driverController.a().whileTrue(TwoMotors.motor2SetPos());
-    m_driverController.b().whileTrue(TwoMotors.motor1ResetVel());
-    m_driverController.b().whileTrue(TwoMotors.motor2ResetPos());
+    m_driverController.a().whileTrue(TwoMotors.start());
+    m_driverController.b().whileTrue(TwoMotors.stop());
   }
 
   /**
@@ -63,3 +61,6 @@ public class RobotContainer {
   //   return Autos.exampleAuto(m_exampleSubsystem);
   // }
 }
+
+
+//run 每个周期一直执行，如果有command返回run指令，写run方法的时候一定要有自己的打断条件，不能一直循环这个指令
