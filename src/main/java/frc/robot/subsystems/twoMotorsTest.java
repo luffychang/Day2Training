@@ -42,4 +42,7 @@ public class twoMotorsTest extends SubsystemBase {
             setMotorPosition(50.0);
         });
     }
+    public Command collective() {
+        return startEnd(() -> {setMotorVelocity(50.0); setMotorPosition(50.0);},() -> {setMotorVelocity(0.0); setMotorPosition(0.0);});
+    }
 }

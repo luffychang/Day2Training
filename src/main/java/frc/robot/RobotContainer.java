@@ -47,8 +47,9 @@ public class RobotContainer {
     // Schedule `ExampleCommand` when `exampleCondition` changes to `true`
     // Schedule `exampleMethodCommand` when the Xbox controller's B button is pressed,
     // cancelling on release.
-    m_driverController.a().whileTrue(TwoMotors.start());
-    m_driverController.b().whileTrue(TwoMotors.stop());
+    // m_driverController.a().whileTrue(TwoMotors.start());
+    // m_driverController.b().whileTrue(TwoMotors.stop());
+    m_driverController.a().whileTrue(TwoMotors.collective());
   }
 
   /**
