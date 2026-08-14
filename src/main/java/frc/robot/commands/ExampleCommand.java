@@ -41,3 +41,10 @@ public class ExampleCommand extends Command {
     return false;
   }
 }
+
+// 复杂的指令，多个子系统，调用多个子系统，声明多个子系统
+// 简单的指令，只涉及一个子系统
+// 1. runonce + waituntil + runonce (3 commands)
+// 2. run 设置停止条件（到位50）setposition + setvelocity (2 commands)
+// 3. runEnd 设置停止条件（到位50）setposition setvelocity (1 command)
+// 4. (without sequence) runonce + andthen + waituntil + andthen + runonce (5 commands)

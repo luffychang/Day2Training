@@ -47,15 +47,20 @@ public class ExampleSubsystem extends SubsystemBase {
    *
    * @return a command
    */
-  public Command exampleMethodCommand() {
+  public Command sequence_3command() {
     // Inline construction of command goes here.
     // Subsystem::RunOnce implicitly requires `this` subsystem.
-    // return runOnce(
-    //     () -> {
-    //       //setMotorPosition(10.0);
-    //     });
-    return Commands.none();
+    return Commands.sequence(
+      Commands.runOnce(() -> setMotorVelocity(50.0)),
+      Commands.waitUntil(() -> Math.abs(m_test_motor.getPosition().getValueAsDouble() - 50.0) < 0.5),
+      Commands.runOnce(() -> setMotorVelocity(50.0))
+    );
   }
+  public Command motor_move_until() {
+    return
+    Commands.run(() -> setMotorVelocity(50.0)).until(() -> Math.abs(m_test_motor.getPosition().getValueAsDouble() - 50.0) < 0.5);
+  }
+
   public Command resetVel() {
     return runOnce(() -> {
       setMotorVelocity(0.0);
@@ -91,3 +96,6 @@ public class ExampleSubsystem extends SubsystemBase {
 //1.该子系统涉及到的电机
 //3.一些方法
 //按键按下->触发command->setMotorPosition->电机运动
+//一个类可以有多个同名的构造函数，不同实现
+
+//实际上从语法角度，可以不写构造函数，前提是不会去实例化对象，例如constants.xx.xx

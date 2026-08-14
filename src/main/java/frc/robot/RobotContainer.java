@@ -49,7 +49,9 @@ public class RobotContainer {
     // cancelling on release.
     // m_driverController.a().whileTrue(TwoMotors.start());
     // m_driverController.b().whileTrue(TwoMotors.stop());
-    m_driverController.a().whileTrue(TwoMotors.collective());
+    // m_driverController.a().whileTrue(TwoMotors.collective());
+    m_driverController.a().onTrue(TwoMotors.sequential());
+    m_driverController.b().whileTrue(TwoMotors.stop());
   }
 
   /**

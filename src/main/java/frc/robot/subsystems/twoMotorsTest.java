@@ -2,11 +2,13 @@ package frc.robot.subsystems;
 
 import edu.wpi.first.units.measure.Velocity;
 import edu.wpi.first.wpilibj2.command.Command;
+import edu.wpi.first.wpilibj2.command.Commands;
 import edu.wpi.first.wpilibj2.command.SubsystemBase;
 import com.ctre.phoenix6.controls.VelocityTorqueCurrentFOC;
 import com.ctre.phoenix6.controls.MotionMagicVoltage;
 import com.ctre.phoenix6.hardware.TalonFX;
 import com.ctre.phoenix6.configs.TalonFXConfiguration;
+import java.lang.Math;
 
 public class twoMotorsTest extends SubsystemBase {
     private final TalonFX motor1 = new TalonFX(19, "rio");
@@ -21,6 +23,11 @@ public class twoMotorsTest extends SubsystemBase {
         var motor2Config = new TalonFXConfiguration();
         motor2Config.Slot0.kS = 0.2;
         motor2Config.Slot0.kP = 5.0;
+        motor2Config.MotionMagic.MotionMagicCruiseVelocity = 100.0;
+        motor2Config.MotionMagic.MotionMagicAcceleration = 100.0;
+        motor2Config.MotionMagic.MotionMagicJerk = 0.0;
+        motor2Config.MotionMagic.MotionMagicExpo_kV = 0.12;
+        motor2Config.MotionMagic.MotionMagicExpo_kA = 0.1;
         motor1.getConfigurator().apply(motor1Config);
         motor2.getConfigurator().apply(motor2Config);
     }
@@ -43,6 +50,20 @@ public class twoMotorsTest extends SubsystemBase {
         });
     }
     public Command collective() {
-        return startEnd(() -> {setMotorVelocity(50.0); setMotorPosition(50.0);},() -> {setMotorVelocity(0.0); setMotorPosition(0.0);});
+        return startEnd(() -> {
+            setMotorPosition(50.0);
+            setMotorVelocity(50.0);
+        },
+        () -> {
+            setMotorPosition(0.0);
+            setMotorVelocity(0.0);
+        });
+    }
+    public Command sequential() {
+        return Commands.sequence(
+            runOnce(() -> {setMotorPosition(50.0);}),
+            Commands.waitUntil(() -> Math.abs(motor2.getPosition().getValueAsDouble() - 50.0) < 0.5),
+            runOnce(() -> {setMotorVelocity(50.0);})
+        );
     }
 }
